@@ -76,7 +76,7 @@ class CommandParser:
                 "--hc",
                 help="the hardware controller to use for fetching and setting the temp and fan(s) speed",
                 type=str,
-                choices=["ectool"],
+                choices=["ectool", "crosecpython"],
                 default="ectool",
             )
             run_command.add_argument(

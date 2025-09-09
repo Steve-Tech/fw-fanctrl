@@ -7,6 +7,7 @@ from fw_fanctrl.dto.command_result.CommandResult import CommandResult
 from fw_fanctrl.enum.CommandStatus import CommandStatus
 from fw_fanctrl.enum.OutputFormat import OutputFormat
 from fw_fanctrl.hardwareController.EctoolHardwareController import EctoolHardwareController
+from fw_fanctrl.hardwareController.CrosecpythonHardwareController import CrosecpythonHardwareController
 from fw_fanctrl.socketController.UnixSocketController import UnixSocketController
 
 
@@ -26,6 +27,8 @@ def main():
         hardware_controller = EctoolHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
         if args.hardware_controller == "ectool":
             hardware_controller = EctoolHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
+        elif args.hardware_controller == "crosecpython":
+            hardware_controller = CrosecpythonHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
 
         fan = FanController(
             hardware_controller=hardware_controller,
