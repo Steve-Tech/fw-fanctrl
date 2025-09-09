@@ -76,8 +76,8 @@ class CommandParser:
                 "--hc",
                 help="the hardware controller to use for fetching and setting the temp and fan(s) speed",
                 type=str,
-                choices=["ectool", "crosecpython"],
-                default="ectool",
+                choices=["auto", "ectool", "crosecpython"],
+                default="auto",
             )
             run_command.add_argument(
                 "--no-battery-sensors",

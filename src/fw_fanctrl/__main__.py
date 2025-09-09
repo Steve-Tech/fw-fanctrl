@@ -6,8 +6,6 @@ from fw_fanctrl.FanController import FanController
 from fw_fanctrl.dto.command_result.CommandResult import CommandResult
 from fw_fanctrl.enum.CommandStatus import CommandStatus
 from fw_fanctrl.enum.OutputFormat import OutputFormat
-from fw_fanctrl.hardwareController.EctoolHardwareController import EctoolHardwareController
-from fw_fanctrl.hardwareController.CrosecpythonHardwareController import CrosecpythonHardwareController
 from fw_fanctrl.socketController.UnixSocketController import UnixSocketController
 
 
@@ -24,11 +22,21 @@ def main():
         socket_controller = UnixSocketController()
 
     if args.command == "run":
-        hardware_controller = EctoolHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
-        if args.hardware_controller == "ectool":
-            hardware_controller = EctoolHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
-        elif args.hardware_controller == "crosecpython":
-            hardware_controller = CrosecpythonHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
+        match args.hardware_controller:
+            case "ectool":
+                from fw_fanctrl.hardwareController.EctoolHardwareController import EctoolHardwareController
+                hardware_controller = EctoolHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
+            case "crosecpython":
+                from fw_fanctrl.hardwareController.CrosecpythonHardwareController import CrosecpythonHardwareController
+                hardware_controller = CrosecpythonHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
+            case _:
+                # auto-detect
+                try:
+                    from fw_fanctrl.hardwareController.CrosecpythonHardwareController import CrosecpythonHardwareController
+                    hardware_controller = CrosecpythonHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
+                except ImportError:
+                    from fw_fanctrl.hardwareController.EctoolHardwareController import EctoolHardwareController
+                    hardware_controller = EctoolHardwareController(no_battery_sensor_mode=args.no_battery_sensors)
 
         fan = FanController(
             hardware_controller=hardware_controller,
