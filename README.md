@@ -27,8 +27,7 @@ easily configure your own for a different comfort/performance trade-off.
 
 It also is possible to assign separate strategies depending on whether the laptop is charging or discharging.
 
-Under the hood, it uses [ectool](https://gitlab.howett.net/DHowett/ectool)
-to change parameters in Framework's embedded controller (EC).
+Under the hood, it uses [CrOS_EC_Python](https://github.com/Steve-Tech/CrOS_EC_Python) to change parameters in Framework's embedded controller (EC). [ectool](https://gitlab.howett.net/DHowett/ectool) can also be used as a fallback if CrOS_EC_Python is not available.
 
 It is compatible with all 13" and 16" models, both AMD/Intel CPUs, with or without a discrete GPU.
 
